@@ -1,0 +1,42 @@
+if(argv[i] == (char) 46){
+            // check for the file type e.g exe, txt, html, nit, c, pdf, docx, etc
+            for(int j = 0; j < size; ++j){
+                int check_index = i+1;
+                if(strcmp( (argv + check_index), file_extensions[i]) == 0){
+                    //extension was found
+                    //then create the actual file and check if it was created!!
+                   if(creat(file_control->file_name, 0644) == 0){
+                    perror("success");
+                    return 0;
+                   }
+                  perror("failure");
+                  return 1;
+                }
+            }
+
+        }else{
+            file_control->permit = 0777;
+            strcpy(file_control->file_type, "folder");
+            file_control->file_flag = 0;
+            
+        }
+
+
+
+
+
+
+
+
+
+
+        while ((ent = readdir(directory)) != NULL){
+          if(strcmp(ent->d_name, argv) == 0){
+              printf("%s", argv);
+              return 0;
+          }else{
+            perror("error");
+            //return 1;
+          }
+      }
+ 
