@@ -1,19 +1,15 @@
-CC     = gcc
-CFLAGS = -Wall -Wextra
+CFLAGS=-Wall -Wshadow -Wcast-qual -pedantic -ansi -O3 -g
 
-# Every program that has its own main()
-PROGS = create find 
+all: libmagic minifile 
 
-all: $(PROGS)
+libmagic: libmagic.a
 
-# Generic rule: build x from x.c
-%: %.c
-	$(CC) $(CFLAGS) -o $@ $<
+libmagic.a: magic.o
+	ar cru libmagic.a magic.o
+	ranlib libmagic.a
 
-# Programs that need other files: list them explicitly
-# (this overrides the generic rule for that program)
-find: find.c utils.c
-	$(CC) $(CFLAGS) -o $@ $^
+magic.o: magic.c sysdep.h magic.h
 
-clean:
-	rm -f $(PROGS)
+minifile: libmagic.a minifile.o
+
+minifile.o: minifile.c
